@@ -29,7 +29,7 @@ class TodosScreen extends StatelessWidget {
                 onPressed: () {},
               ),
             ),
-            Divider(
+            const Divider(
               color: Color.fromRGBO(236, 241, 245, 1),
               height: 50,
             ),

@@ -7,9 +7,13 @@ class TodoCheckboxWidget extends StatefulWidget {
   const TodoCheckboxWidget({
     super.key,
     required this.onChecked,
+    required this.todoLegend,
+    required this.onDelete,
   });
 
   final void Function() onChecked;
+  final String todoLegend;
+  final void Function() onDelete;
 
   @override
   State<TodoCheckboxWidget> createState() => _MyWidgetState();
@@ -86,6 +90,22 @@ class _MyWidgetState extends State<TodoCheckboxWidget> {
                         artboard: checkboxArtboard!,
                       ),
                     ),
+            ),
+            const SizedBox(
+              width: 7,
+            ),
+            Text(
+              widget.todoLegend,
+              style: const TextStyle(
+                color: Color.fromRGBO(62, 102, 146, 1),
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            IconButton(
+              onPressed: widget.onDelete,
+              icon: const Icon(Icons.delete),
             ),
           ],
         ),

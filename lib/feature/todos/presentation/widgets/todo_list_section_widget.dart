@@ -22,6 +22,8 @@ class TodoListSectionWidget extends StatelessWidget {
           ),
           TodoCheckboxWidget(
             onChecked: () {},
+            onDelete: () {},
+            todoLegend: 'Henlo',
           ),
         ],
       ),
