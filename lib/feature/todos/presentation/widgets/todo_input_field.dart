@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:widget_tester/feature/todos/presentation/providers/todos_notifier_provider.dart';
 
-class TodoInputfieldWidget extends StatelessWidget {
-  const TodoInputfieldWidget({
+class TodoInputFieldWidget extends ConsumerStatefulWidget {
+  const TodoInputFieldWidget({
     super.key,
-    required this.onPressed,
   });
 
-  final void Function()? onPressed;
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _TodoInputFieldWidgetState();
+}
+
+class _TodoInputFieldWidgetState extends ConsumerState<TodoInputFieldWidget> {
+  final TextEditingController _inputController = TextEditingController();
+
+  @override
+  void dispose() {
+    _inputController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +31,7 @@ class TodoInputfieldWidget extends StatelessWidget {
       children: [
         Flexible(
           child: TextFormField(
+            controller: _inputController,
             decoration: const InputDecoration(
               border: InputBorder.none,
               hintText: 'Add todo',
@@ -38,7 +52,12 @@ class TodoInputfieldWidget extends StatelessWidget {
                   Color.fromRGBO(60, 118, 181, 1),
                 ),
               ),
-              onPressed: onPressed,
+              onPressed: () {
+                ref
+                    .read(todosNotifierProvider.notifier)
+                    .addTodo(message: _inputController.text);
+                _inputController.clear();
+              },
               icon: const Icon(Icons.add),
             ),
           ),

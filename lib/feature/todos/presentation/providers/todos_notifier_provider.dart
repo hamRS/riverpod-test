@@ -11,13 +11,35 @@ class TodosNotifier extends _$TodosNotifier {
     return TodosState.init();
   }
 
-  void addTodo({required TodoEntity todo}) {
+  void addTodo({required String message}) {
+    final TodoEntity todo = TodoEntity.add(
+      message: message,
+    );
     state = state.copyWith(
       todoList: [
         ...state.todoList,
         todo,
       ],
     );
+  }
+
+  Future<void> toggleTodo({required String id}) async {
+    for (int i = 0; i < state.todoList.length; i++) {
+      if (state.todoList[i].id == id) {
+        List<TodoEntity> temp = state.todoList;
+        temp[i] = temp[i].copyWith(isDone: !temp[i].isDone);
+        state = state.copyWith(todoList: temp);
+        break;
+      }
+    }
+  }
+
+  List<TodoEntity> getCompleted() {
+    return state.todoList.where((element) => element.isDone).toList();
+  }
+
+  List<TodoEntity> getToBeCompleted() {
+    return state.todoList.where((element) => !element.isDone).toList();
   }
 
   void removeTodo({

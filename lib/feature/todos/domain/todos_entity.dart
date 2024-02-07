@@ -11,6 +11,18 @@ class TodoEntity {
     required this.id,
   });
 
+  TodoEntity copyWith({
+    String? message,
+    bool? isDone,
+    String? id,
+  }) {
+    return TodoEntity(
+      message: message ?? this.message,
+      isDone: isDone ?? this.isDone,
+      id: id ?? this.id,
+    );
+  }
+
   factory TodoEntity.empty() {
     return TodoEntity(
       message: '',

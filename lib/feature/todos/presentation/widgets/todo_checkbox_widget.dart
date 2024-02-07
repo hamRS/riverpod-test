@@ -9,11 +9,13 @@ class TodoCheckboxWidget extends StatefulWidget {
     required this.onChecked,
     required this.todoLegend,
     required this.onDelete,
+    this.defaultValue = false,
   });
 
   final void Function() onChecked;
   final String todoLegend;
   final void Function() onDelete;
+  final bool defaultValue;
 
   @override
   State<TodoCheckboxWidget> createState() => _MyWidgetState();
@@ -37,10 +39,13 @@ class _MyWidgetState extends State<TodoCheckboxWidget> {
           if (controller != null) {
             artboard.addController(controller);
             _isChecked = controller.findSMI('checkButton');
+
+            if (!widget.defaultValue) {
+              _isChecked?.value = !_isChecked!.value;
+            }
           }
           setState(() {
             checkboxArtboard = artboard;
-            _isChecked?.value = !_isChecked!.value;
           });
         } catch (e) {
           throw UnimplementedError();
@@ -81,10 +86,10 @@ class _MyWidgetState extends State<TodoCheckboxWidget> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                       onTap: () {
+                        widget.onChecked();
                         setState(() {
                           _isChecked?.value = !_isChecked!.value;
                         });
-                        widget.onChecked;
                       },
                       child: Rive(
                         artboard: checkboxArtboard!,
@@ -96,8 +101,13 @@ class _MyWidgetState extends State<TodoCheckboxWidget> {
             ),
             Text(
               widget.todoLegend,
-              style: const TextStyle(
-                color: Color.fromRGBO(62, 102, 146, 1),
+              style: TextStyle(
+                decoration: _isChecked != null && _isChecked!.value
+                    ? TextDecoration.lineThrough
+                    : TextDecoration.none,
+                color: _isChecked != null && !_isChecked!.value
+                    ? Color.fromRGBO(62, 102, 146, 1)
+                    : Colors.grey,
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
               ),
