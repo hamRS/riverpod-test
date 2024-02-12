@@ -36,21 +36,7 @@ class TodosScreen extends StatelessWidget {
                 color: Color.fromRGBO(236, 241, 245, 1),
                 height: 50,
               ),
-              Consumer(
-                builder: (context, ref, child) {
-                  ref.watch(todosNotifierProvider);
-                  final List<TodoEntity> completed =
-                      ref.read(todosNotifierProvider.notifier).getCompleted();
-                  final toBeCompleted = ref
-                      .read(todosNotifierProvider.notifier)
-                      .getToBeCompleted();
-
-                  return TodoListSectionWidget(
-                    completed: completed,
-                    toBeCompleted: toBeCompleted,
-                  );
-                },
-              ),
+              TodoListSectionWidget(),
             ],
           ),
         ),

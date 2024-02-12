@@ -85,11 +85,8 @@ class _MyWidgetState extends State<TodoCheckboxWidget> {
                       customBorder: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),
-                      onTap: () {
+                      onTap: () async {
                         widget.onChecked();
-                        setState(() {
-                          _isChecked?.value = !_isChecked!.value;
-                        });
                       },
                       child: Rive(
                         artboard: checkboxArtboard!,

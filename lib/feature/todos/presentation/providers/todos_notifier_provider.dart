@@ -20,6 +20,10 @@ class TodosNotifier extends _$TodosNotifier {
         ...state.todoList,
         todo,
       ],
+      needToDoList: [
+        ...state.needToDoList,
+        todo,
+      ],
     );
   }
 
@@ -28,7 +32,11 @@ class TodosNotifier extends _$TodosNotifier {
       if (state.todoList[i].id == id) {
         List<TodoEntity> temp = state.todoList;
         temp[i] = temp[i].copyWith(isDone: !temp[i].isDone);
-        state = state.copyWith(todoList: temp);
+        state = state.copyWith(
+          todoList: temp,
+          needToDoList: temp.where((element) => !element.isDone).toList(),
+          completedToDoList: temp.where((element) => element.isDone).toList(),
+        );
         break;
       }
     }
@@ -50,6 +58,10 @@ class TodosNotifier extends _$TodosNotifier {
         ..removeWhere(
           (element) => element.id == id,
         ),
+      completedToDoList: state.completedToDoList
+        ..removeWhere((element) => element.id == id),
+      needToDoList: state.needToDoList
+        ..removeWhere((element) => element.id == id),
     );
   }
 }
